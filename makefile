@@ -9,16 +9,18 @@ OBJDIR = bin
 SRCDIR = src
 CPPVERSION = c++1z
 
-SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+#SOURCES = $(wildcard **/*.cpp)
+SOURCES = $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp)
 POBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=%.o)
 OBJECTS = $(addprefix $(OBJDIR)/, $(POBJECTS))
 
 $(OUTPUT): $(OBJECTS)
-	$(CC) $(OBJECTS) $(INCLUDES) $(LIBPATH) $(CLIBS) -g -std=$(CPPVERSION) -o $(DEBUGOUTPUTDIR)/$(OUTPUT) $(INCLUDES)
+	$(CC) $(OBJECTS) $(INCLUDES) $(LIBPATH) $(CLIBS) -std=$(CPPVERSION) -g -o $(DEBUGOUTPUTDIR)/$(OUTPUT)
 	@echo "\n"Debug build completed\; Enter $(DEBUGOUTPUTDIR)/$(OUTPUT) to run."\n"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) $(INCLUDES) $(LIBPATH) -std=$(CPPVERSION) -c $< -o $@ $(CLIBS) $(INCLUDES)
+	@mkdir -p $(@D)
+	$(CC) $(INCLUDES) $(LIBPATH) $(CLIBS) -std=$(CPPVERSION) -c $< -o $@
 
 clean:
 	rm $(OBJDIR)/*.o $(DEBUGOUTPUTDIR)/$(OUTPUT) #$(RELEASEOUTPUTDIR)/$(OUTPUT)
