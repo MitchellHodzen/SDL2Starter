@@ -18,7 +18,7 @@ $(OUTPUT): $(OBJECTS)
 	@echo "\n"Debug build completed\; Enter $(DEBUGOUTPUTDIR)/$(OUTPUT) to run."\n"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) $(INCLUDES) $(LIBPATH) -c $< -o $@ $(CLIBS) $(INCLUDES)
+	$(CC) $(INCLUDES) $(LIBPATH) -std=$(CPPVERSION) -c $< -o $@ $(CLIBS) $(INCLUDES)
 
 clean:
 	rm $(OBJDIR)/*.o $(DEBUGOUTPUTDIR)/$(OUTPUT) #$(RELEASEOUTPUTDIR)/$(OUTPUT)
